@@ -1,16 +1,23 @@
-import { RouterProvider, createBrowserRouter } from "react-router-dom"
-import { Home } from "../views/Home/Home"
-import { Layout } from "../components/Layout/Layout"
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import { Deck } from "../views/Deck/Deck";
+import { Layout } from "../components/Layout/Layout";
+import { DeckProvider } from "../contexts/DeckContext/DeckContext";
 
 const router = createBrowserRouter([
-    {
-        path: "/",
-        element: <Home />
-    }
-])
+  {
+    path: "/",
+    element: (
+      <DeckProvider>
+        <Deck />
+      </DeckProvider>
+    ),
+  },
+]);
 
 export const Router = () => {
-    return <Layout>
-<RouterProvider {...{router}}/>
-        </Layout>
-}
+  return (
+    <Layout>
+      <RouterProvider {...{ router }} />
+    </Layout>
+  );
+};
