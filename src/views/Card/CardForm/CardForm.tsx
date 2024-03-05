@@ -14,9 +14,7 @@ export interface CardFormProps {
 }
 
 const newCardDefaults: Omit<Card, "id"> = {
-  sound: "",
   tip: "",
-  image: "",
   answer: "",
   explanation: "",
 };
@@ -47,7 +45,14 @@ export const CardForm = ({ submitHandler, submitLabel, cardDefaults }: CardFormP
 
     setCard((prevState) => ({
       ...prevState,
-      [name]: type === "file" ? files?.[0] : value,
+      [name]:
+        type === "file"
+          ? {
+              url: "",
+              file: files[0],
+              name: files[0].name,
+            }
+          : value,
     }));
   };
 
@@ -57,20 +62,20 @@ export const CardForm = ({ submitHandler, submitLabel, cardDefaults }: CardFormP
     const {
       files: [file],
       name,
-    } = event.target;
+    } = event.target as { files: FileList; name: "sound" | "image" };
 
     // const file = event.target.files[0];
     // const name = event.target.name;
 
     if (file) {
       const url = URL.createObjectURL(file);
-      return setCard((previousState) => ({ ...previousState, [name]: url }));
+      return setCard((previousState) => ({ ...previousState, [name]: { ...previousState[name], url } }));
     }
 
     throw new Error(`Invalid file: ${file}`);
   };
 
-    const handlePreview = () => {
+  const handlePreview = () => {
     const { current } = audioRef;
 
     if (current.paused) return current.play();
@@ -87,9 +92,23 @@ export const CardForm = ({ submitHandler, submitLabel, cardDefaults }: CardFormP
   return (
     <form onSubmit={localSubmitHanlder} className={classes.form}>
       <button onClick={handleChangeImage} className={classes.imageContainer}>
-        <img id="image" src={typeof card.image === "string" && card.image !== "" ? card.image : "https://f4.bcbits.com/img/a0082454319_65"} alt="flashcard image" />
+        <img
+          id="image"
+          src={
+            !card.image?.url || card.image?.url === "" ? "https://f4.bcbits.com/img/a0082454319_65" : card.image?.url
+          }
+          alt="flashcard image"
+        />
         <label htmlFor="image">Alter image</label>
-        <input ref={imageInputRef} hidden type="file" id="image" name="image" accept="image/*" onChange={localHandleChange} />
+        <input
+          ref={imageInputRef}
+          hidden
+          type="file"
+          id="image"
+          name="image"
+          accept="image/*"
+          onChange={localHandleChange}
+        />
       </button>
 
       <label htmlFor="sound">Sound:</label>
@@ -98,10 +117,12 @@ export const CardForm = ({ submitHandler, submitLabel, cardDefaults }: CardFormP
           onClick={handleAddSound}
           readOnly
           type="text"
-          value={(card.sound as File)?.name || (card.sound as string)}
+          value={card.sound?.name || ""}
           placeholder="tap to add a sound"
         />
-        <button disabled={card.sound === ""} onClick={handlePreview}>Preview</button>
+        <button disabled={card.sound?.url === ""} onClick={handlePreview}>
+          Preview
+        </button>
 
         <input
           ref={soundInputRef}
@@ -112,7 +133,7 @@ export const CardForm = ({ submitHandler, submitLabel, cardDefaults }: CardFormP
           name="sound"
           onChange={localHandleChange}
         />
-        <audio ref={audioRef} src={card.sound as string}></audio>
+        <audio autoPlay={false} ref={audioRef} src={card.sound?.url}></audio>
       </div>
 
       <label htmlFor="tip">Tip:</label>

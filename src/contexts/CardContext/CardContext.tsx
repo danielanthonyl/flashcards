@@ -2,7 +2,7 @@ import { ReactNode, createContext, useCallback, useMemo, useState } from "react"
 import { CardContextDefaults, cardContextDefaults } from "./CardContextDefaults";
 import { readCollection } from "../../api/repository/readCollection";
 import { ECollectionNames } from "../../api/repository/enums/ECollectionNames";
-import { Card } from "../../api/entities/Card";
+import { Card, Media } from "../../api/entities/Card";
 import { uploadMedia } from "../../api/repository/uploadMedia";
 import { EBucketDirectories } from "../../api/repository/enums/EBucketDirectories";
 import { createDocument } from "../../api/repository/createDocument";
@@ -18,6 +18,16 @@ export const CardContext = createContext(cardContextDefaults);
 export const CardContextProvider = ({ children }: CardContextProviderProps) => {
   const [cards, setCards] = useState<Card[]>([]);
 
+  const updateMediasUrl = async (medias: { sound?: Media; image?: Media }) => {
+    const sound: Media = medias.sound;
+    const image: Media = medias.image;
+
+    if (medias.sound) sound.url = await uploadMedia(medias.sound as File, EBucketDirectories.SOUND);
+    if (medias.image) image.url = await uploadMedia(medias.image as File, EBucketDirectories.IMAGE);
+
+    return { sound, image };
+  };
+
   const readCards = useCallback(async () => {
     const cardCollection = await readCollection<Card>(ECollectionNames.CARD);
     setCards(cardCollection);
@@ -26,11 +36,7 @@ export const CardContextProvider = ({ children }: CardContextProviderProps) => {
   }, []);
 
   const createCard = useCallback(async (card: Omit<Card, "id">): Promise<Card> => {
-    let sound: string | null = null;
-    let image: string | null = null;
-
-    if (card.sound) sound = await uploadMedia(card.sound as File, EBucketDirectories.SOUND);
-    if (card.image) image = await uploadMedia(card.image as File, EBucketDirectories.IMAGE);
+    const { sound, image } = await updateMediasUrl(card);
 
     return await createDocument<Card>(ECollectionNames.CARD, { ...card, sound, image });
   }, []);
@@ -40,11 +46,7 @@ export const CardContextProvider = ({ children }: CardContextProviderProps) => {
   }, []);
 
   const updateCardById = useCallback(async (cardId: string, updateObject: Omit<Partial<Card>, "id">): Promise<Card> => {
-    let sound: string | null = null;
-    let image: string | null = null;
-
-    if (updateObject.sound) sound = await uploadMedia(updateObject.sound as File, EBucketDirectories.SOUND);
-    if (updateObject.image) image = await uploadMedia(updateObject.image as File, EBucketDirectories.IMAGE);
+    const { sound, image } = await updateMediasUrl(updateObject);
 
     return await updateDocument<Card>(ECollectionNames.CARD, cardId, { ...updateObject, sound, image });
   }, []);

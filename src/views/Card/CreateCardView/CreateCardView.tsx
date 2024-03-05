@@ -17,6 +17,7 @@ export const CreateCardView = () => {
   const [deck, setDeck] = useState<Deck | null>(null);
 
   const submitHandler = async (card: Omit<Card, "id">) => {
+    console.log(card)
     await createCard(card);
 
     navigate(`/decks/${deckId}`);
