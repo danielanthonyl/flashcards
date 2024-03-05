@@ -1,0 +1,12 @@
+.container {
+    display: flex;
+    height: fit-content;
+    flex-direction: column;
+    /* background-color: var(--blac-secondary); */
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}

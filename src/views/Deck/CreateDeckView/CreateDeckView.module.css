@@ -1,0 +1,10 @@
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  display: flex;
+  gap: 30px;
+  margin-bottom: 50px;
+}

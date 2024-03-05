@@ -1,0 +1,30 @@
+.form {
+  display: flex;
+  flex-direction: column;
+}
+
+.imageContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: none;
+  background-color: transparent;
+  outline: none;
+  gap: 10px;
+}
+
+.imageContainer img {
+  width: 80px;
+  height: heightpx;
+  border-radius: 10px;
+}
+
+
+.soundContainer {
+  display: flex;
+}
+
+
+.soundContainer input{
+  width: 100%;
+}

@@ -1,0 +1,12 @@
+.header {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.titles {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}

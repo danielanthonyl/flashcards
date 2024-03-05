@@ -4,20 +4,24 @@
   font-weight: 400;
 }
 
-html, body {
+html,
+body {
   width: 100vw;
   height: 100vh;
   background-color: var(--blac-primary);
 }
 
-
 button {
   background-color: var(--blac-secondary);
+}
+
+input {
+  color: var(--blac-primary);
 }
 
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  color:var(--white-primary); 
+  color: var(--white-primary);
 }
