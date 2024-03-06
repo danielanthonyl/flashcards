@@ -7,7 +7,7 @@ export const updateDocument = async <T extends object>(
   collectionName: ECollectionNames,
   documentId: string,
   updateObject: Partial<T>
-): Promise<T | null> => {
+): Promise<T & {id: string} | null> => {
   try {
     const documentReference = doc(database, collectionName, documentId);
     const documentSnapshot = await getDoc(documentReference);

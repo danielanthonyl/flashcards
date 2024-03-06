@@ -5,7 +5,7 @@ import { ECollectionNames } from "./enums/ECollectionNames";
 export const readDocument = async <T extends object>(
   collectionName: ECollectionNames,
   documentId: string
-): Promise<T | null> => {
+): Promise<T & {id: string} | null> => {
   try {
     const docRef = doc(database, collectionName, documentId);
     const docSnapshot = await getDoc(docRef);
@@ -13,7 +13,7 @@ export const readDocument = async <T extends object>(
     if (docSnapshot.exists()) {
       console.info(`Read document ${collectionName}/${documentId}`);
 
-      return docSnapshot.data() as T;
+      return docSnapshot.data() as T & {id: string};
     }
 
     throw new Error(`Document ${collectionName}/${documentId} not found`);

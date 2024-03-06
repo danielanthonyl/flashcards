@@ -3,7 +3,7 @@
  * - on line 36 (empty card handling) will be updated to a proper error screen
  */
 import { useEffect, useState } from "react";
-import { Card } from "../../../api/entities/Card";
+import { Card, CardDTO } from "../../../api/entities/Card";
 import { useCardContext } from "../../../contexts/CardContext/useCardContext";
 import { useNavigate, useParams } from "react-router-dom";
 
@@ -22,7 +22,7 @@ export const EditCardView = () => {
   const [cardDefaults, setCardDefaults] = useState<Card>(null);
   const [deck, setDeck] = useState<Deck | null>(null);
 
-  const submitHandler = async (card: Omit<Card, "id">) => {
+  const submitHandler = async (card: CardDTO) => {
     await updateCardById(cardId, card);
 
     navigate(`/decks/${deckId}`);

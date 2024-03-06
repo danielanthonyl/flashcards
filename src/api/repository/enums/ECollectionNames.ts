@@ -1,4 +1,5 @@
 export enum ECollectionNames {
     DECK = "decks",
-    CARD = "cards"
+    CARD = "cards",
+    MEDIA = "media"
 }

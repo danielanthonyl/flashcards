@@ -1,14 +1,20 @@
-export interface Media {
-  url?: string;
-  file?: File;
-  name?: string;
-}
+import { MediaDTO } from "./Media";
 
 export interface Card {
+  id: string;
+  deckId: string;
   explanation?: string;
   tip?: string;
-  id: string;
-  sound?: Media;
-  image?: Media;
+  soundId?: string;
+  imageId?: string;
   answer: string;
 }
+
+export interface CardDTO {
+  explanation?: string;
+  tip?: string;
+  sound?: MediaDTO;
+  image?: MediaDTO;
+  answer: string;
+}
+

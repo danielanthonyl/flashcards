@@ -4,23 +4,23 @@
  *   Will use a generic placeholder for now.
  */
 import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
-import { Card } from "../../../api/entities/Card";
+import { Card, CardDTO } from "../../../api/entities/Card";
 import classes from "./CardForm.module.css";
 
 export interface CardFormProps {
-  submitHandler: (card: Omit<Card, "id">) => void;
+  submitHandler: (card: CardDTO) => void;
   submitLabel: string;
   cardDefaults?: Card;
 }
 
-const newCardDefaults: Omit<Card, "id"> = {
+const newCardDefaults: CardDTO = {
   tip: "",
   answer: "",
   explanation: "",
 };
 
 export const CardForm = ({ submitHandler, submitLabel, cardDefaults }: CardFormProps) => {
-  const [card, setCard] = useState<Omit<Card, "id">>(newCardDefaults);
+  const [card, setCard] = useState<CardDTO>(newCardDefaults);
 
   const imageInputRef = useRef<HTMLInputElement>(null);
   const soundInputRef = useRef<HTMLInputElement>(null);
@@ -63,9 +63,6 @@ export const CardForm = ({ submitHandler, submitLabel, cardDefaults }: CardFormP
       files: [file],
       name,
     } = event.target as { files: FileList; name: "sound" | "image" };
-
-    // const file = event.target.files[0];
-    // const name = event.target.name;
 
     if (file) {
       const url = URL.createObjectURL(file);

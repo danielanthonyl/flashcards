@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 
-import { Card } from "../../../api/entities/Card";
+import { CardDTO } from "../../../api/entities/Card";
 import { useCardContext } from "../../../contexts/CardContext/useCardContext";
 import { useNavigate, useParams } from "react-router-dom";
 import { Header } from "../../../components/Header/Header";
@@ -16,9 +16,8 @@ export const CreateCardView = () => {
 
   const [deck, setDeck] = useState<Deck | null>(null);
 
-  const submitHandler = async (card: Omit<Card, "id">) => {
-    console.log(card)
-    await createCard(card);
+  const submitHandler = async (card: CardDTO) => {
+    await createCard(card, deckId);
 
     navigate(`/decks/${deckId}`);
   };

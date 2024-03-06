@@ -2,7 +2,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { ECollectionNames } from "./enums/ECollectionNames";
 import { database } from "../database";
 
-export const readCollection = async <T extends { id: string }>(collectionName: ECollectionNames) => {
+export const readCollection = async <T extends object>(collectionName: ECollectionNames) => {
   try {
     const collectionData: T[] = [];
     const querySnapshot = await getDocs(collection(database, collectionName));
