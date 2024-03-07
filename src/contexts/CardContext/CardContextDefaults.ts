@@ -1,11 +1,11 @@
-import { Card, CardDTO } from "../../api/entities/Card";
+import { Card } from "../../api/entities/Card";
 
 export interface CardContextDefaults {
   cards: Card[];
   readCards: () => Promise<Card[]>;
-  createCard: (card: Omit<CardDTO, "id">, deckId: string) => Promise<Card | null>;
+  createCard: (card: Omit<Card, 'id'>, deckId: string) => Promise<Card | null>;
   readCardById: (cardId: string) => Promise<Card | null>;
-  updateCardById: (cardId: string, updateObject: Omit<Partial<Card>, 'id'>) => Promise<Card | null>;
+  updateCardById: (cardId: string, card: Omit<Partial<Card>, 'id'>) => Promise<Card | null>;
 }
 
 export const cardContextDefaults: CardContextDefaults = {

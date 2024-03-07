@@ -3,9 +3,10 @@
  * - image should have a default image that probably comes from db.
  *   Will use a generic placeholder for now.
  */
-import { ChangeEvent, FormEvent, useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import { Card, CardDTO } from "../../../api/entities/Card";
 import classes from "./CardForm.module.css";
+import { useCardForm } from "./useCardForm";
 
 export interface CardFormProps {
   submitHandler: (card: CardDTO) => void;
@@ -13,78 +14,26 @@ export interface CardFormProps {
   cardDefaults?: Card;
 }
 
-const newCardDefaults: CardDTO = {
-  tip: "",
-  answer: "",
-  explanation: "",
-};
-
 export const CardForm = ({ submitHandler, submitLabel, cardDefaults }: CardFormProps) => {
-  const [card, setCard] = useState<CardDTO>(newCardDefaults);
-
   const imageInputRef = useRef<HTMLInputElement>(null);
   const soundInputRef = useRef<HTMLInputElement>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
 
-  const localSubmitHanlder = (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-
-    submitHandler(card);
-  };
-
-  const handleChangeImage = () => {
-    imageInputRef.current.click();
-  };
-
-  const handleAddSound = () => {
-    soundInputRef.current.click();
-  };
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const { name, value, files, type } = event.target;
-
-    setCard((prevState) => ({
-      ...prevState,
-      [name]:
-        type === "file"
-          ? {
-              url: "",
-              file: files[0],
-              name: files[0].name,
-            }
-          : value,
-    }));
-  };
-
-  const localHandleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    handleChange(event);
-
-    const {
-      files: [file],
-      name,
-    } = event.target as { files: FileList; name: "sound" | "image" };
-
-    if (file) {
-      const url = URL.createObjectURL(file);
-      return setCard((previousState) => ({ ...previousState, [name]: { ...previousState[name], url } }));
-    }
-
-    throw new Error(`Invalid file: ${file}`);
-  };
-
-  const handlePreview = () => {
-    const { current } = audioRef;
-
-    if (current.paused) return current.play();
-    current.pause();
-    current.currentTime = 0;
-  };
-
-  useEffect(() => {
-    if (cardDefaults) {
-      setCard(cardDefaults);
-    }
-  }, [cardDefaults]);
+  const {
+    card,
+    handleChange,
+    handleAddSound,
+    handleChangeImage,
+    handlePreview,
+    localHandleChange,
+    localSubmitHanlder,
+  } = useCardForm({
+    submitHandler,
+    cardDefaults,
+    audioRef,
+    imageInputRef,
+    soundInputRef,
+  });
 
   return (
     <form onSubmit={localSubmitHanlder} className={classes.form}>

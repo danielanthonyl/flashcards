@@ -1,4 +1,4 @@
-import { ref, uploadBytes } from "firebase/storage";
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { bucket } from "../database";
 import { EBucketDirectories } from "./enums/EBucketDirectories";
 
@@ -9,7 +9,9 @@ export const uploadMedia = async (file: File, directory: EBucketDirectories) => 
 
       console.info(`media "${file.name}" sent to bucket directory: "${directory}". `, snapshot);
 
-      return `${snapshot.metadata.bucket}/${snapshot.metadata.fullPath}`
+      const downloadURL =  await getDownloadURL(fileRef);
+
+      return downloadURL
     } catch (error) {
       console.error(`error sending media "${file.name}" to directory "${directory}". `, error);
 

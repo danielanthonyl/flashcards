@@ -46,7 +46,7 @@ export const EditCardView = () => {
         navigationPath={`/decks/${deckId}`}
       />
 
-      <CardForm {...{ submitHandler, submitLabel: "Create", cardDefaults }} />
+      <CardForm {...{ submitHandler, submitLabel: "Update", cardDefaults }} />
     </section>
   );
 };
