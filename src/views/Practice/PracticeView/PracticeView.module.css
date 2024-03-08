@@ -1,0 +1,17 @@
+.practice {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  height: 100vh;
+  padding: 20px 0;
+  align-items: center;
+}
+
+.practice > div:nth-child(1) {
+  flex: 5;
+}
+
+.practice > div:nth-child(2) {
+  flex: 10;
+}
+

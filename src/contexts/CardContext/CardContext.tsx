@@ -76,7 +76,10 @@ export const CardContextProvider = ({ children }: CardContextProviderProps) => {
   }, []);
 
   const readCardById = useCallback(async (cardId: string): Promise<Card> => {
-    const {imageId, soundId, ...rest} = await readDocument<CardDTO>(ECollectionNames.CARD, cardId);
+    const readCard = await readDocument<CardDTO>(ECollectionNames.CARD, cardId);
+    if(!readCard) return;
+
+    const {imageId, soundId, ...rest} = readCard
 
     const image = await readDocument<Media>(ECollectionNames.MEDIA, imageId);
     const sound = await readDocument<Media>(ECollectionNames.MEDIA, soundId);

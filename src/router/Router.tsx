@@ -12,6 +12,8 @@ import { EditDeckView } from "../views/Deck/EditDeckView/EditDeckView";
 import { CreateCardView } from "../views/Card/CreateCardView/CreateCardView";
 import { CardContextProvider } from "../contexts/CardContext/CardContext";
 import { EditCardView } from "../views/Card/EditCardView/EditCardView";
+import { PracticeView } from "../views/Practice/PracticeView/PracticeView";
+import { FinishView } from "../views/Practice/FinishView/FinishView";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +39,14 @@ const router = createBrowserRouter([
       {
         path: "decks/:deckId/cards/:cardId",
         element: <EditCardView />,
+      },
+      {
+        path: "practice/start/:deckId",
+        element: <PracticeView />,
+      },
+      {
+        path: "practice/finish/:deckId",
+        element: <FinishView />,
       },
     ],
   },

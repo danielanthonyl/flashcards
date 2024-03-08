@@ -1,18 +1,9 @@
 import { useEffect } from "react";
 import { useDeckContext } from "../../../../contexts/DeckContext/useDeckContext";
 import { DeckEmptyState } from "../DeckEmptyState/DeckEmptyState";
-import { useNavigate } from "react-router-dom";
-import { useOpenDeckModalContext } from "../../../../contexts/OpenDeckModalContext/useOpenDeckModalContext";
 
-export const Decks = () => {
-  const navigate = useNavigate();
+export const Decks = ({ handleDeckClick }: { handleDeckClick: (deckId: string) => void }) => {
   const { decks, readDecks } = useDeckContext();
-  const { open } = useOpenDeckModalContext();
-
-  const handleDeckClick = (deckId: string) => {
-    open();
-    // navigate(`/decks/${deckId}`);
-  };
 
   useEffect(() => {
     (async () => await readDecks())();
