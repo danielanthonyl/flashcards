@@ -17,7 +17,7 @@ export const DeckProvider = ({ children }: DeckProviderProps) => {
 
   const createDeck = useCallback(
     async (deck: Deck) => {
-      const createdDeck = await createDocument<Deck>(ECollectionNames.DECK, deck);
+      const createdDeck = await createDocument<Deck, Deck>(ECollectionNames.DECK, deck);
       const localDecksCopy = [...localDecks];
 
       if (createdDeck) {

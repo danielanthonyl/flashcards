@@ -2,7 +2,7 @@ import { ChangeEvent, MouseEvent, useRef, useState } from "react";
 import { Card } from "../../../../api/entities/Card";
 
 export const CardBack = ({ card, onBackCardClick }: { card: Card; onBackCardClick: () => void }) => {
-  const [selectedDifficulty, setSelectedDifficulty] = useState<string | null>(null);
+  const [, setSelectedDifficulty] = useState<string | null>(null);
   const audioRef = useRef<HTMLAudioElement>(null);
 
   const handlePlayAudio = (event: MouseEvent<HTMLButtonElement>) => {
