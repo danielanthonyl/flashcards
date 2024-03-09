@@ -21,7 +21,7 @@ export const Cards = ({ deckId }: { deckId: string }) => {
     <button onClick={() => handleCardClick(id)} key={id}>
       <p>{tip}</p>
       <i>🔊</i>
-      <img src={image as string} alt="" />
+      <img src={image?.url} alt="" />
       <p>{answer}</p>
     </button>
   ));
